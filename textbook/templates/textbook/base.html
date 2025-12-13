@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}StudEduc - Курсы программирования{% endblock %}</title>
+    <title>{% block title %}CodeMaster - Курсы программирования{% endblock %}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -67,7 +67,7 @@
         
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
             align-items: center;
         }
         
@@ -77,20 +77,33 @@
             font-weight: 500;
             transition: color 0.3s;
             position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s;
         }
         
         .nav-links a:hover {
             color: var(--primary);
+            background: rgba(67, 97, 238, 0.1);
+        }
+        
+        .nav-links a.active {
+            color: var(--primary);
+            background: rgba(67, 97, 238, 0.1);
         }
         
         .nav-links a.active::after {
             content: '';
             position: absolute;
             bottom: -5px;
-            left: 0;
-            width: 100%;
+            left: 12px;
+            right: 12px;
             height: 2px;
             background: var(--primary);
+            border-radius: 1px;
         }
         
         .user-profile {
@@ -101,18 +114,61 @@
             background: var(--light);
             border-radius: 50px;
             cursor: pointer;
+            margin-left: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .user-profile:hover {
+            background: #e2e8f0;
+            transform: scale(1.05);
         }
         
         .user-avatar {
             width: 36px;
             height: 36px;
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            font-size: 1rem;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        /* Кнопка выхода - ФОРМА */
+        .logout-form {
+            display: inline;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .logout-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px !important;
+            background: transparent !important;
+            color: var(--primary) !important;
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        
+        .logout-btn:hover {
+            background: var(--primary) !important;
+            color: white !important;
+            transform: scale(1.05);
         }
         
         /* Основной контейнер */
@@ -203,20 +259,56 @@
             background: var(--danger);
         }
         
-        /* Теги */
-        .tag {
-            display: inline-block;
-            padding: 4px 12px;
-            background: var(--light);
-            border-radius: 20px;
-            font-size: 0.9rem;
-            margin-right: 8px;
-            margin-bottom: 8px;
+        .btn-warning {
+            background: var(--warning);
         }
         
-        .tag-primary {
-            background: #e0e7ff;
-            color: var(--primary);
+        .btn-accent {
+            background: var(--accent);
+        }
+        
+        /* Сообщения */
+        .messages-container {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 1001;
+            max-width: 400px;
+        }
+        
+        .message {
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            animation: slideIn 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .message.success {
+            background: #dcfce7;
+            color: #166534;
+            border-left: 4px solid var(--success);
+        }
+        
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid var(--danger);
+        }
+        
+        .message.info {
+            background: #dbeafe;
+            color: #1e40af;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .message.warning {
+            background: #fef3c7;
+            color: #92400e;
+            border-left: 4px solid var(--warning);
         }
         
         /* Футер */
@@ -243,7 +335,12 @@
         /* Адаптивность */
         @media (max-width: 768px) {
             .nav-links {
-                display: none;
+                gap: 0.8rem;
+            }
+            
+            .nav-links a {
+                padding: 6px 8px;
+                font-size: 0.9rem;
             }
             
             .container {
@@ -253,12 +350,46 @@
             .card {
                 padding: 1.5rem;
             }
+            
+            .user-profile span {
+                display: none;
+            }
+            
+            .auth-buttons {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .logo {
+                font-size: 1.2rem;
+            }
+            
+            .navbar {
+                padding: 1rem;
+            }
         }
         
         /* Анимации */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
         }
         
         .fade-in {
@@ -311,25 +442,74 @@
         <div class="nav-container">
             <a href="{% url 'index' %}" class="logo">
                 <i class="fas fa-code"></i>
-                StudEduc
+                CodeMaster
             </a>
             
             <div class="nav-links">
-                <a href="{% url 'index' %}" class="active"><i class="fas fa-home"></i> Главная</a>
-                <a href="{% url 'lectures' %}"><i class="fas fa-book"></i> Лекции</a>
-                <a href="{% url 'lab' %}"><i class="fas fa-clipboard-check"></i> Лабораторные</a>
-                <a href="{% url 'tests' %}"><i class="fas fa-clipboard-check"></i> Тесты</a>>
+                <a href="{% url 'index' %}" class="{% if request.resolver_match.url_name == 'index' %}active{% endif %}">
+                    <i class="fas fa-home"></i> Главная
+                </a>
+                <a href="{% url 'lectures' %}" class="{% if request.resolver_match.url_name == 'lectures' %}active{% endif %}">
+                    <i class="fas fa-book"></i> Лекции
+                </a>
+                <a href="#" class="{% if request.resolver_match.url_name == 'practice' %}active{% endif %}">
+                    <i class="fas fa-laptop-code"></i> Практика
+                </a>
+                <a href="{% url 'tests' %}" class="{% if request.resolver_match.url_name == 'tests' %}active{% endif %}">
+                    <i class="fas fa-clipboard-check"></i> Тесты
+                </a>
+                <a href="{% url 'lab' %}" class="{% if request.resolver_match.url_name == 'lab' %}active{% endif %}">
+                    <i class="fas fa-flask"></i> Лабораторные
+                </a>
                 
-                
-                
-                
+                {% if user.is_authenticated %}
+                <!-- Блок авторизованного пользователя -->
                 <div class="user-profile">
-                    <div class="user-avatar">УЧ</div>
-                    <span>Ученик</span>
+                    <div class="user-avatar">{{ user.username|first|upper }}</div>
+                    <span>{{ user.username }}</span>
                 </div>
+                
+                <!-- ФОРМА для выхода (исправлено!) -->
+                <form method="post" action="{% url 'logout' %}" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Выйти
+                    </button>
+                </form>
+                {% else %}
+                <!-- Блок неавторизованного пользователя -->
+                <div class="auth-buttons">
+                    <a href="{% url 'login' %}" class="btn" style="padding: 8px 16px;">
+                        <i class="fas fa-sign-in-alt"></i> Войти
+                    </a>
+                    <a href="{% url 'register' %}" class="btn btn-outline" style="padding: 8px 16px;">
+                        <i class="fas fa-user-plus"></i> Регистрация
+                    </a>
+                </div>
+                {% endif %}
             </div>
         </div>
     </nav>
+
+    <!-- Сообщения -->
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+        <div class="message {{ message.tags }}">
+            {% if message.tags == 'success' %}
+            <i class="fas fa-check-circle"></i>
+            {% elif message.tags == 'error' %}
+            <i class="fas fa-exclamation-circle"></i>
+            {% elif message.tags == 'warning' %}
+            <i class="fas fa-exclamation-triangle"></i>
+            {% else %}
+            <i class="fas fa-info-circle"></i>
+            {% endif %}
+            <span>{{ message }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
     <!-- Основной контент -->
     <main class="container">
@@ -341,24 +521,34 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
-                <h3>StudEduc</h3>
-                <p>Онлайн-платформа для обучения.</p>
+                <h3>CodeMaster</h3>
+                <p>Онлайн-платформа для изучения программирования. Освойте современные технологии с нуля.</p>
+                {% if user.is_authenticated %}
+                <p style="margin-top: 1rem; color: var(--accent);">
+                    <i class="fas fa-user-check"></i> Вы вошли как: {{ user.username }}
+                </p>
+                {% endif %}
             </div>
             
             <div class="footer-section">
                 <h3>Курсы</h3>
-                <ul>
-                    <li>Лекции</li>
-                    <li>Лабораторные</li>
-                    <li>Тесты</li>
-                    
+                <ul style="list-style: none;">
+                    <li><i class="fas fa-chevron-right" style="color: var(--accent);"></i> Python для начинающих</li>
+                    <li><i class="fas fa-chevron-right" style="color: var(--accent);"></i> Веб-разработка</li>
+                    <li><i class="fas fa-chevron-right" style="color: var(--accent);"></i> Алгоритмы и структуры данных</li>
+                    <li><i class="fas fa-chevron-right" style="color: var(--accent);"></i> Экспертные системы</li>
                 </ul>
             </div>
             
             <div class="footer-section">
                 <h3>Контакты</h3>
-                <p>support@StudEduc.ru</p>
-                <p>+9 (999) 999-99-99</p>
+                <p><i class="fas fa-envelope"></i> support@codemaster.ru</p>
+                <p><i class="fas fa-phone"></i> +7 (999) 123-45-67</p>
+                <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+                    <a href="#" style="color: white; font-size: 1.5rem;"><i class="fab fa-vk"></i></a>
+                    <a href="#" style="color: white; font-size: 1.5rem;"><i class="fab fa-telegram"></i></a>
+                    <a href="#" style="color: white; font-size: 1.5rem;"><i class="fab fa-github"></i></a>
+                </div>
             </div>
         </div>
     </footer>
@@ -383,8 +573,31 @@
         
         // Инициализация при загрузке
         document.addEventListener('DOMContentLoaded', function() {
-            updateProgress('course-progress', 65);
-            updateProgress('test-progress', 40);
+            // Обновляем активную ссылку в навигации
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Автоматическое скрытие сообщений через 5 секунд
+            const messages = document.querySelectorAll('.message');
+            messages.forEach(message => {
+                setTimeout(() => {
+                    message.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => message.remove(), 300);
+                }, 5000);
+            });
+            
+            // Обновляем прогресс бары (если есть)
+            const courseProgress = document.getElementById('course-progress');
+            const testProgress = document.getElementById('test-progress');
+            
+            if (courseProgress) updateProgress('course-progress', 35);
+            if (testProgress) updateProgress('test-progress', 40);
         });
         
         // Переключение вкладок
@@ -400,9 +613,25 @@
                 button.classList.remove('active');
             });
             
-            document.getElementById(tabName).style.display = 'block';
-            evt.currentTarget.classList.add('active');
+            const target = document.getElementById(tabName);
+            if (target) {
+                target.style.display = 'block';
+                evt.currentTarget.classList.add('active');
+            }
         }
+        
+        // Подтверждение выхода
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoutForm = document.querySelector('.logout-form');
+            if (logoutForm) {
+                logoutForm.addEventListener('submit', function(e) {
+                    if (!confirm('Вы уверены, что хотите выйти из системы?')) {
+                        e.preventDefault();
+                        return false;
+                    }
+                });
+            }
+        });
     </script>
     
     {% block extra_js %}{% endblock %}

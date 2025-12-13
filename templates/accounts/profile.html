@@ -1,0 +1,48 @@
+{% extends 'textbook/base.html' %}
+{% load static %}
+
+{% block title %}Профиль - CodeMaster{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <div class="card" style="max-width: 600px; margin: 2rem auto;">
+        <h1 style="text-align: center; margin-bottom: 2rem;">
+            <i class="fas fa-user-circle"></i> Мой профиль
+        </h1>
+        
+        <div style="display: flex; align-items: center; gap: 2rem; margin-bottom: 2rem; padding: 1.5rem; background: #f8fafc; border-radius: 15px;">
+            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                      border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">
+                {{ user.username|first|upper }}
+            </div>
+            <div>
+                <h2 style="margin: 0 0 0.5rem 0;">{{ user.username }}</h2>
+                <p style="color: #64748b; margin: 0;">
+                    <i class="fas fa-calendar"></i> Зарегистрирован: {{ user.date_joined|date:"d.m.Y" }}
+                </p>
+            </div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+            <div style="text-align: center; padding: 1.5rem; background: #f0f9ff; border-radius: 10px;">
+                <div style="font-size: 2rem; font-weight: bold; color: var(--primary);">0</div>
+                <div style="color: var(--gray);">Пройдено тестов</div>
+            </div>
+            <div style="text-align: center; padding: 1.5rem; background: #f0f9ff; border-radius: 10px;">
+                <div style="font-size: 2rem; font-weight: bold; color: var(--success);">0</div>
+                <div style="color: var(--gray);">Лекций изучено</div>
+            </div>
+            <div style="text-align: center; padding: 1.5rem; background: #f0f9ff; border-radius: 10px;">
+                <div style="font-size: 2rem; font-weight: bold; color: var(--accent);">0</div>
+                <div style="color: var(--gray);">Достижений</div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 2rem;">
+            <a href="{% url 'logout' %}" class="btn" style="width: 100%;">
+                <i class="fas fa-sign-out-alt"></i> Выйти из системы
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

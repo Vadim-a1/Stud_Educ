@@ -1,0 +1,178 @@
+{% extends 'textbook/base.html' %}
+{% load static %}
+
+
+{% block title %}Главная - CodeMaster{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <!-- Приветствие -->
+    <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+        <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Добро пожаловать в учебник по программированию! 👨‍💻</h1>
+        <p style="font-size: 1.2rem; opacity: 0.9;">
+            Начните свой путь в мире программирования. Сегодня вы изучите основы Python.
+        </p>
+    </div>
+
+    <!-- Текущий курс -->
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h2><i class="fas fa-graduation-cap"></i> Активный курс: Python для начинающих</h2>
+            <span class="tag tag-primary">В процессе</span>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-label">
+                <span>Прогресс курса</span>
+                <span>35%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="course-progress"></div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 1.5rem;">
+            <a href="#continue" class="btn"><i class="fas fa-play"></i> Продолжить обучение</a>
+            <a href="#review" class="btn btn-outline" style="margin-left: 1rem;"><i class="fas fa-redo"></i> Повторить пройденное</a>
+        </div>
+    </div>
+
+    <!-- Следующий урок -->
+    <div class="card">
+        <h2><i class="fas fa-forward"></i> Рекомендуемый урок: Основы Python</h2>
+        <div style="margin: 1.5rem 0; padding: 1.5rem; background: var(--light); border-radius: 10px;">
+            <h3 style="color: var(--primary); margin-bottom: 1rem;">Что вы изучите:</h3>
+            <ul style="list-style: none;">
+                <li style="padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
+                    <i class="fas fa-check-circle" style="color: var(--success); margin-right: 10px;"></i>
+                    Синтаксис и структура кода
+                </li>
+                <li style="padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
+                    <i class="fas fa-check-circle" style="color: var(--success); margin-right: 10px;"></i>
+                    Переменные и типы данных
+                </li>
+                <li style="padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
+                    <i class="fas fa-check-circle" style="color: var(--success); margin-right: 10px;"></i>
+                    Базовые операции и функции
+                </li>
+                <li style="padding: 8px 0;">
+                    <i class="fas fa-check-circle" style="color: var(--success); margin-right: 10px;"></i>
+                    Работа со строками и числами
+                </li>
+            </ul>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <span class="tag"><i class="fas fa-clock"></i> 30 минут</span>
+                <span class="tag"><i class="fas fa-star"></i> Начальный уровень</span>
+            </div>
+            <a href="#start-lesson" class="btn btn-success"><i class="fas fa-play-circle"></i> Начать урок</a>
+        </div>
+    </div>
+
+    <!-- Доступные курсы -->
+    <div class="card">
+        <h2><i class="fas fa-list-ul"></i> Все курсы</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+            <div style="background: #f0f9ff; padding: 1.5rem; border-radius: 10px; border: 2px solid var(--primary);">
+                <h3 style="color: var(--primary);"><i class="fab fa-python"></i> Python для начинающих</h3>
+                <p style="color: var(--gray); margin: 10px 0;">Основы программирования на Python с нуля</p>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 35%;"></div>
+                    </div>
+                </div>
+                <a href="#" class="btn" style="width: 100%; margin-top: 1rem;">Продолжить</a>
+            </div>
+            
+            <div style="background: #f8fafc; padding: 1.5rem; border-radius: 10px; border: 2px solid #e2e8f0;">
+                <h3><i class="fas fa-code"></i> Веб-разработка</h3>
+                <p style="color: var(--gray); margin: 10px 0;">HTML, CSS, JavaScript и Django</p>
+                <div style="margin-top: 1rem;">
+                    <span class="tag"><i class="fas fa-lock"></i> Доступ скоро</span>
+                </div>
+            </div>
+            
+            <div style="background: #f8fafc; padding: 1.5rem; border-radius: 10px; border: 2px solid #e2e8f0;">
+                <h3><i class="fas fa-sitemap"></i> Алгоритмы</h3>
+                <p style="color: var(--gray); margin: 10px 0;">Структуры данных и алгоритмы</p>
+                <div style="margin-top: 1rem;">
+                    <span class="tag"><i class="fas fa-lock"></i> Доступ скоро</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Тесты и практика -->
+    <div class="card">
+        <h2><i class="fas fa-clipboard-check"></i> Практические задания</h2>
+        <div style="margin-top: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: #f0f9ff; border-radius: 10px; margin-bottom: 1rem;">
+                <div>
+                    <h3 style="color: var(--primary);">Тест: Основы синтаксиса Python</h3>
+                    <p style="color: var(--gray); margin: 5px 0;">5 вопросов · Проверка знаний</p>
+                </div>
+                <a href="#take-test" class="btn"><i class="fas fa-pencil-alt"></i> Пройти тест</a>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: #f0f9ff; border-radius: 10px;">
+                <div>
+                    <h3 style="color: var(--primary);">Практика: Калькулятор</h3>
+                    <p style="color: var(--gray); margin: 5px 0;">Создание простого калькулятора на Python</p>
+                </div>
+                <a href="#practice" class="btn"><i class="fas fa-code"></i> Выполнить</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Быстрый доступ -->
+    <div class="card">
+        <h2><i class="fas fa-bolt"></i> Быстрый доступ</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+            <a href="#lectures" style="text-decoration: none;">
+                <div style="text-align: center; padding: 1.5rem; background: var(--light); border-radius: 10px; transition: all 0.3s;">
+                    <div style="font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem;">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div style="font-weight: bold; color: var(--dark);">Лекции</div>
+                </div>
+            </a>
+            
+            <a href="#tests" style="text-decoration: none;">
+                <div style="text-align: center; padding: 1.5rem; background: var(--light); border-radius: 10px; transition: all 0.3s;">
+                    <div style="font-size: 2rem; color: var(--success); margin-bottom: 0.5rem;">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <div style="font-weight: bold; color: var(--dark);">Тесты</div>
+                </div>
+            </a>
+            
+            <a href="#practice" style="text-decoration: none;">
+                <div style="text-align: center; padding: 1.5rem; background: var(--light); border-radius: 10px; transition: all 0.3s;">
+                    <div style="font-size: 2rem; color: var(--accent); margin-bottom: 0.5rem;">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div style="font-weight: bold; color: var(--dark);">Практика</div>
+                </div>
+            </a>
+            
+            <a href="#help" style="text-decoration: none;">
+                <div style="text-align: center; padding: 1.5rem; background: var(--light); border-radius: 10px; transition: all 0.3s;">
+                    <div style="font-size: 2rem; color: var(--warning); margin-bottom: 0.5rem;">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <div style="font-weight: bold; color: var(--dark);">Помощь</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Обновляем прогресс
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('course-progress').style.width = '35%';
+    });
+</script>
+{% endblock %}

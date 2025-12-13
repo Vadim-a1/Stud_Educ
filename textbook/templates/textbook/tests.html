@@ -1,0 +1,768 @@
+{% extends 'textbook/base.html' %}
+
+{% block title %}Тесты - CodeMaster{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Стили для тестов */
+    .tests-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+    
+    .tests-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+    
+    .test-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        transition: all 0.3s;
+        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .test-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        border-color: var(--primary);
+    }
+    
+    .test-card.completed::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 40px 40px 0;
+        border-color: transparent var(--success) transparent transparent;
+    }
+    
+    .test-card.completed::after {
+        content: '✓';
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        color: white;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+    
+    .test-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        background: var(--light);
+        border-radius: 20px;
+        font-size: 0.8rem;
+        margin-right: 8px;
+        margin-bottom: 10px;
+    }
+    
+    .badge-easy {
+        background: #dcfce7;
+        color: var(--success);
+    }
+    
+    .badge-medium {
+        background: #fef3c7;
+        color: var(--warning);
+    }
+    
+    .badge-hard {
+        background: #fee2e2;
+        color: var(--danger);
+    }
+    
+    .test-stats {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #e2e8f0;
+    }
+    
+    .stat-item {
+        text-align: center;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--primary);
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+        color: var(--gray);
+    }
+    
+    /* Активный тест */
+    .active-test-container {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        margin-top: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .question-counter {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 1.5rem;
+        color: var(--gray);
+    }
+    
+    .question-text {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background: var(--light);
+        border-radius: 10px;
+        border-left: 4px solid var(--primary);
+    }
+    
+    .options-grid {
+        display: grid;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .option {
+        padding: 1rem 1.5rem;
+        background: var(--light);
+        border: 2px solid transparent;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .option:hover {
+        background: #e0e7ff;
+        transform: translateX(5px);
+    }
+    
+    .option.selected {
+        background: #dbeafe;
+        border-color: var(--primary);
+    }
+    
+    .option.correct {
+        background: #dcfce7;
+        border-color: var(--success);
+    }
+    
+    .option.incorrect {
+        background: #fee2e2;
+        border-color: var(--danger);
+    }
+    
+    .option-letter {
+        width: 30px;
+        height: 30px;
+        background: var(--primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+    
+    .test-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #e2e8f0;
+    }
+    
+    .timer {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 15px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        border-radius: 10px;
+        font-weight: bold;
+    }
+    
+    /* Результаты теста */
+    .result-card {
+        text-align: center;
+        padding: 3rem 2rem;
+    }
+    
+    .result-score {
+        font-size: 4rem;
+        font-weight: bold;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin: 1rem 0;
+    }
+    
+    .result-message {
+        font-size: 1.5rem;
+        color: var(--dark);
+        margin-bottom: 1rem;
+    }
+    
+    .progress-circle {
+        width: 120px;
+        height: 120px;
+        margin: 2rem auto;
+        position: relative;
+    }
+    
+    .circle-bg {
+        fill: none;
+        stroke: #e2e8f0;
+        stroke-width: 8;
+    }
+    
+    .circle-progress {
+        fill: none;
+        stroke: var(--success);
+        stroke-width: 8;
+        stroke-linecap: round;
+        transform: rotate(-90deg);
+        transform-origin: 50% 50%;
+        transition: stroke-dasharray 1s ease;
+    }
+    
+    .progress-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--dark);
+    }
+    
+    /* Фильтры тестов */
+    .test-filters {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+    }
+    
+    .filter-btn {
+        padding: 8px 16px;
+        background: var(--light);
+        border: 2px solid transparent;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-weight: 500;
+    }
+    
+    .filter-btn.active {
+        background: var(--primary);
+        color: white;
+    }
+    
+    .filter-btn:hover:not(.active) {
+        border-color: var(--primary);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <!-- Заголовок -->
+    <div class="tests-header">
+        <div>
+            <h1><i class="fas fa-clipboard-check"></i> Тесты и проверка знаний</h1>
+            <p style="color: var(--gray); margin-top: 0.5rem;">Проверьте свои знания и закрепите материал</p>
+        </div>
+        <div class="timer">
+            <i class="fas fa-clock"></i>
+            <span id="global-timer">--:--</span>
+        </div>
+    </div>
+
+    <!-- Фильтры -->
+    <div class="test-filters">
+        <button class="filter-btn active" onclick="filterTests('all')">Все тесты</button>
+        <button class="filter-btn" onclick="filterTests('python')">Python</button>
+        <button class="filter-btn" onclick="filterTests('algorithms')">Алгоритмы</button>
+        <button class="filter-btn" onclick="filterTests('web')">Веб-разработка</button>
+        <button class="filter-btn" onclick="filterTests('completed')">Завершённые</button>
+        <button class="filter-btn" onclick="filterTests('new')">Новые</button>
+    </div>
+
+    <!-- Сетка тестов -->
+    <div class="tests-grid">
+        <!-- Тест 1 -->
+        <div class="test-card" data-category="python">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                <div>
+                    <h3 style="color: var(--primary);">Основы Python</h3>
+                    <p style="color: var(--gray); font-size: 0.9rem; margin: 5px 0;">Синтаксис, переменные, типы данных</p>
+                </div>
+                <span class="test-badge badge-easy">Лёгкий</span>
+            </div>
+            
+            <p style="margin: 1rem 0;">Тест охватывает базовые концепции языка Python.</p>
+            
+            <div class="test-stats">
+                <div class="stat-item">
+                    <div class="stat-value">10</div>
+                    <div class="stat-label">вопросов</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">15</div>
+                    <div class="stat-label">минут</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">85%</div>
+                    <div class="stat-label">сдали</div>
+                </div>
+            </div>
+            
+            <button class="btn" style="width: 100%; margin-top: 1rem;" onclick="startTest(1)">
+                <i class="fas fa-play"></i> Начать тест
+            </button>
+        </div>
+
+        <!-- Тест 2 -->
+        <div class="test-card completed" data-category="python">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                <div>
+                    <h3 style="color: var(--primary);">Условные операторы</h3>
+                    <p style="color: var(--gray); font-size: 0.9rem; margin: 5px 0;">if, else, elif, логические операторы</p>
+                </div>
+                <span class="test-badge badge-easy">Лёгкий</span>
+            </div>
+            
+            <p style="margin: 1rem 0;">Работа с условиями и логическими выражениями.</p>
+            
+            <div class="test-stats">
+                <div class="stat-item">
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">вопросов</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">минут</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">92%</div>
+                    <div class="stat-label">сдали</div>
+                </div>
+            </div>
+            
+            <button class="btn btn-outline" style="width: 100%; margin-top: 1rem;">
+                <i class="fas fa-redo"></i> Пройти ещё раз
+            </button>
+        </div>
+
+        <!-- Тест 3 -->
+        <div class="test-card" data-category="python">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                <div>
+                    <h3 style="color: var(--primary);">Функции</h3>
+                    <p style="color: var(--gray); font-size: 0.9rem; margin: 5px 0;">Создание и использование функций</p>
+                </div>
+                <span class="test-badge badge-medium">Средний</span>
+            </div>
+            
+            <p style="margin: 1rem 0;">Параметры, возврат значений, область видимости.</p>
+            
+            <div class="test-stats">
+                <div class="stat-item">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">вопросов</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">20</div>
+                    <div class="stat-label">минут</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">78%</div>
+                    <div class="stat-label">сдали</div>
+                </div>
+            </div>
+            
+            <button class="btn" style="width: 100%; margin-top: 1rem;" onclick="startTest(3)">
+                <i class="fas fa-play"></i> Начать тест
+            </button>
+        </div>
+
+        <!-- Тест 4 -->
+        <div class="test-card" data-category="algorithms">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                <div>
+                    <h3 style="color: var(--primary);">Алгоритмы поиска</h3>
+                    <p style="color: var(--gray); font-size: 0.9rem; margin: 5px 0;">Линейный, бинарный поиск</p>
+                </div>
+                <span class="test-badge badge-medium">Средний</span>
+            </div>
+            
+            <p style="margin: 1rem 0;">Основные алгоритмы поиска и их сложность.</p>
+            
+            <div class="test-stats">
+                <div class="stat-item">
+                    <div class="stat-value">15</div>
+                    <div class="stat-label">вопросов</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">25</div>
+                    <div class="stat-label">минут</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">65%</div>
+                    <div class="stat-label">сдали</div>
+                </div>
+            </div>
+            
+            <button class="btn" style="width: 100%; margin-top: 1rem;" disabled>
+                <i class="fas fa-lock"></i> Скоро откроется
+            </button>
+        </div>
+    </div>
+
+    <!-- Активный тест (скрыт по умолчанию) -->
+    <div id="active-test" class="active-test-container" style="display: none;">
+        <div class="question-counter">
+            <span id="current-question">1</span> из <span id="total-questions">10</span>
+        </div>
+        
+        <h2 id="test-title">Основы Python</h2>
+        
+        <div class="question-text" id="question-text">
+            Какой оператор используется для вывода данных на экран в Python?
+        </div>
+        
+        <div class="options-grid" id="options-container">
+            <!-- Опции будут добавляться через JavaScript -->
+        </div>
+        
+        <div class="test-controls">
+            <button class="btn btn-outline" id="prev-btn" onclick="prevQuestion()">
+                <i class="fas fa-arrow-left"></i> Назад
+            </button>
+            
+            <div class="timer">
+                <i class="fas fa-clock"></i>
+                <span id="test-timer">15:00</span>
+            </div>
+            
+            <button class="btn" id="next-btn" onclick="nextQuestion()">
+                Далее <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Результаты теста (скрыт по умолчанию) -->
+    <div id="test-results" class="active-test-container result-card" style="display: none;">
+        <div class="progress-circle">
+            <svg viewBox="0 0 120 120">
+                <circle class="circle-bg" cx="60" cy="60" r="54"></circle>
+                <circle class="circle-progress" cx="60" cy="60" r="54" id="result-circle"></circle>
+            </svg>
+            <div class="progress-text" id="result-percent">0%</div>
+        </div>
+        
+        <h2 id="result-title">Тест завершён!</h2>
+        
+        <div class="result-message" id="result-message">
+            Отличный результат!
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0;">
+            <div style="text-align: center; padding: 1rem; background: var(--light); border-radius: 10px;">
+                <div style="font-size: 2rem; font-weight: bold; color: var(--primary);" id="correct-answers">0</div>
+                <div style="color: var(--gray);">Правильных ответов</div>
+            </div>
+            <div style="text-align: center; padding: 1rem; background: var(--light); border-radius: 10px;">
+                <div style="font-size: 2rem; font-weight: bold; color: var(--accent);" id="total-time">0:00</div>
+                <div style="color: var(--gray);">Затраченное время</div>
+            </div>
+            <div style="text-align: center; padding: 1rem; background: var(--light); border-radius: 10px;">
+                <div style="font-size: 2rem; font-weight: bold; color: var(--success);" id="test-score">0</div>
+                <div style="color: var(--gray);">Баллов набрано</div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 2rem;">
+            <button class="btn" onclick="returnToTests()">
+                <i class="fas fa-home"></i> Вернуться к тестам
+            </button>
+            <button class="btn btn-outline" style="margin-left: 1rem;">
+                <i class="fas fa-redo"></i> Пройти ещё раз
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Данные тестов
+    const tests = {
+        1: {
+            title: "Основы Python",
+            questions: [
+                {
+                    text: "Какой оператор используется для вывода данных на экран в Python?",
+                    options: [
+                        { text: "print()", correct: true },
+                        { text: "echo()", correct: false },
+                        { text: "console.log()", correct: false },
+                        { text: "output()", correct: false }
+                    ]
+                },
+                {
+                    text: "Как объявить переменную в Python?",
+                    options: [
+                        { text: "var x = 5", correct: false },
+                        { text: "let x = 5", correct: false },
+                        { text: "x = 5", correct: true },
+                        { text: "int x = 5", correct: false }
+                    ]
+                },
+                {
+                    text: "Какой тип данных используется для хранения целых чисел?",
+                    options: [
+                        { text: "str", correct: false },
+                        { text: "float", correct: false },
+                        { text: "int", correct: true },
+                        { text: "bool", correct: false }
+                    ]
+                }
+            ],
+            timeLimit: 900 // 15 минут в секундах
+        },
+        3: {
+            title: "Функции",
+            questions: [
+                {
+                    text: "Как объявить функцию в Python?",
+                    options: [
+                        { text: "function myFunc():", correct: false },
+                        { text: "def myFunc():", correct: true },
+                        { text: "func myFunc():", correct: false },
+                        { text: "method myFunc():", correct: false }
+                    ]
+                },
+                {
+                    text: "Какой оператор используется для возврата значения из функции?",
+                    options: [
+                        { text: "break", correct: false },
+                        { text: "continue", correct: false },
+                        { text: "return", correct: true },
+                        { text: "yield", correct: false }
+                    ]
+                }
+            ],
+            timeLimit: 1200 // 20 минут в секундах
+        }
+    };
+
+    // Текущее состояние
+    let currentTest = null;
+    let currentQuestion = 0;
+    let userAnswers = [];
+    let testTimer;
+    let timeLeft = 0;
+    let startTime;
+
+    // Фильтрация тестов
+    function filterTests(category) {
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        
+        const cards = document.querySelectorAll('.test-card');
+        cards.forEach(card => {
+            if (category === 'all' || card.dataset.category === category) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    // Начать тест
+    function startTest(testId) {
+        currentTest = tests[testId];
+        currentQuestion = 0;
+        userAnswers = [];
+        timeLeft = currentTest.timeLimit;
+        startTime = Date.now();
+        
+        document.querySelector('.tests-grid').style.display = 'none';
+        document.querySelector('.test-filters').style.display = 'none';
+        document.getElementById('active-test').style.display = 'block';
+        
+        document.getElementById('test-title').textContent = currentTest.title;
+        document.getElementById('total-questions').textContent = currentTest.questions.length;
+        
+        startTimer();
+        showQuestion();
+    }
+
+    // Показать вопрос
+    function showQuestion() {
+        const question = currentTest.questions[currentQuestion];
+        
+        document.getElementById('current-question').textContent = currentQuestion + 1;
+        document.getElementById('question-text').textContent = question.text;
+        
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.innerHTML = '';
+        
+        const letters = ['A', 'B', 'C', 'D'];
+        question.options.forEach((option, index) => {
+            const optionDiv = document.createElement('div');
+            optionDiv.className = 'option';
+            optionDiv.innerHTML = `
+                <div class="option-letter">${letters[index]}</div>
+                <div>${option.text}</div>
+            `;
+            
+            optionDiv.onclick = () => selectOption(index);
+            
+            if (userAnswers[currentQuestion] === index) {
+                optionDiv.classList.add('selected');
+            }
+            
+            optionsContainer.appendChild(optionDiv);
+        });
+        
+        // Настройка кнопок навигации
+        document.getElementById('prev-btn').style.display = currentQuestion > 0 ? 'block' : 'none';
+        document.getElementById('next-btn').textContent = 
+            currentQuestion === currentTest.questions.length - 1 ? 'Завершить тест' : 'Далее';
+    }
+
+    // Выбор варианта ответа
+    function selectOption(optionIndex) {
+        const options = document.querySelectorAll('.option');
+        options.forEach(opt => opt.classList.remove('selected'));
+        options[optionIndex].classList.add('selected');
+        
+        userAnswers[currentQuestion] = optionIndex;
+    }
+
+    // Следующий вопрос
+    function nextQuestion() {
+        if (currentQuestion < currentTest.questions.length - 1) {
+            currentQuestion++;
+            showQuestion();
+        } else {
+            finishTest();
+        }
+    }
+
+    // Предыдущий вопрос
+    function prevQuestion() {
+        if (currentQuestion > 0) {
+            currentQuestion--;
+            showQuestion();
+        }
+    }
+
+    // Таймер теста
+    function startTimer() {
+        clearInterval(testTimer);
+        
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('test-timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft <= 0) {
+                clearInterval(testTimer);
+                finishTest();
+            }
+            timeLeft--;
+        }
+        
+        updateTimer();
+        testTimer = setInterval(updateTimer, 1000);
+    }
+
+    // Завершить тест
+    function finishTest() {
+        clearInterval(testTimer);
+        
+        document.getElementById('active-test').style.display = 'none';
+        document.getElementById('test-results').style.display = 'block';
+        
+        // Подсчёт результатов
+        let correct = 0;
+        currentTest.questions.forEach((question, index) => {
+            if (userAnswers[index] !== undefined && 
+                question.options[userAnswers[index]].correct) {
+                correct++;
+            }
+        });
+        
+        const percent = Math.round((correct / currentTest.questions.length) * 100);
+        const timeSpent = Math.round((Date.now() - startTime) / 1000);
+        const minutes = Math.floor(timeSpent / 60);
+        const seconds = timeSpent % 60;
+        
+        // Обновление UI результатов
+        document.getElementById('correct-answers').textContent = `${correct}/${currentTest.questions.length}`;
+        document.getElementById('total-time').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        document.getElementById('test-score').textContent = Math.round(percent / 10);
+        document.getElementById('result-percent').textContent = `${percent}%`;
+        
+        // Анимация круга прогресса
+        const circle = document.getElementById('result-circle');
+        const radius = 54;
+        const circumference = 2 * Math.PI * radius;
+        const offset = circumference - (percent / 100) * circumference;
+        circle.style.strokeDasharray = `${circumference} ${circumference}`;
+        circle.style.strokeDashoffset = offset;
+        
+        // Сообщение в зависимости от результата
+        let message = '';
+        if (percent >= 90) {
+            message = 'Отличный результат! Вы отлично знаете материал!';
+        } else if (percent >= 70) {
+            message = 'Хороший результат! Есть что повторить.';
+        } else if (percent >= 50) {
+            message = 'Неплохо, но нужно больше практики.';
+        } else {
+            message = 'Попробуйте изучить материал ещё раз.';
+        }
+        document.getElementById('result-message').textContent = message;
+    }
+
+    // Вернуться к списку тестов
+    function returnToTests() {
+        document.getElementById('test-results').style.display = 'none';
+        document.querySelector('.tests-grid').style.display = 'grid';
+        document.querySelector('.test-filters').style.display = 'flex';
+    }
+
+    // Таймер на главной странице
+    setInterval(() => {
+        const now = new Date();
+        document.getElementById('global-timer').textContent = 
+            now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    }, 1000);
+</script>
+{% endblock %}

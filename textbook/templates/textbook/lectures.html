@@ -1,0 +1,347 @@
+{% extends 'textbook/base.html' %}
+{%load static %}
+
+
+
+{% block title %}Лекции - CodeMaster{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Стили для лекций */
+    .lecture-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+    
+    .lecture-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s;
+        border: 2px solid transparent;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .lecture-card:hover {
+        border-color: var(--primary);
+        transform: translateY(-3px);
+    }
+    
+    .lecture-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .lecture-card h3 {
+        margin: 0.5rem 0;
+        font-size: 1.2rem;
+        line-height: 1.4;
+    }
+    
+    .lecture-card p {
+        color: var(--gray);
+        margin: 0.5rem 0;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        flex-grow: 1;
+    }
+    
+    .lecture-meta {
+        display: flex;
+        gap: 1rem;
+        margin: 1rem 0;
+        font-size: 0.85rem;
+        color: var(--gray);
+        flex-wrap: wrap;
+    }
+    
+    .lecture-meta span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .start-learning-btn {
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        color: white;
+        border: none;
+        padding: 0.8rem 1rem;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: auto;
+    }
+    
+    .start-learning-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+    }
+    
+    .start-learning-btn:active {
+        transform: translateY(0);
+    }
+    
+    .search-box {
+        background: white;
+        padding: 1rem 1.5rem;
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+    
+    .search-input {
+        flex: 1;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+    }
+    
+    .filter-tabs {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        overflow-x: auto;
+        padding-bottom: 5px;
+    }
+    
+    .filter-tab {
+        padding: 8px 16px;
+        background: var(--light);
+        border-radius: 20px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.3s;
+    }
+    
+    .filter-tab.active {
+        background: var(--primary);
+        color: white;
+    }
+    
+    .difficulty-badge {
+        padding: 3px 10px;
+        border-radius: 15px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        display: inline-block;
+    }
+    
+    .difficulty-easy {
+        background: #dcfce7;
+        color: #166534;
+    }
+    
+    .difficulty-medium {
+        background: #fef3c7;
+        color: #92400e;
+    }
+    
+    .difficulty-hard {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <div class="card">
+        <h1><i class="fas fa-book-open"></i> Все лекции</h1>
+        <p style="color: var(--gray); margin-top: 0.5rem;">Изучайте материалы в удобном для вас порядке</p>
+    </div>
+
+    <!-- Поиск и фильтры -->
+    <div class="search-box">
+        <i class="fas fa-search" style="color: var(--gray);"></i>
+        <input type="text" class="search-input" placeholder="Поиск по лекциям...">
+        <button class="btn"><i class="fas fa-filter"></i> Фильтры</button>
+    </div>
+
+    <div class="filter-tabs">
+        <div class="filter-tab active">Все лекции</div>
+        <div class="filter-tab">Python</div>
+        <div class="filter-tab">Алгоритмы</div>
+        <div class="filter-tab">Веб-разработка</div>
+        <div class="filter-tab">Базы данных</div>
+        <div class="filter-tab">Для начинающих</div>
+        <div class="filter-tab">Продвинутые</div>
+    </div>
+
+    <!-- Сетка лекций -->
+    <div class="lecture-grid">
+        {% for i in "12345678" %}
+        <div class="lecture-card">
+            <div class="lecture-icon">
+                {% if forloop.counter == 1 %}<i class="fas fa-play"></i>
+                {% elif forloop.counter == 2 %}<i class="fas fa-code"></i>
+                {% elif forloop.counter == 3 %}<i class="fas fa-function"></i>
+                {% elif forloop.counter == 4 %}<i class="fas fa-list"></i>
+                {% elif forloop.counter == 5 %}<i class="fas fa-repeat"></i>
+                {% elif forloop.counter == 6 %}<i class="fas fa-sitemap"></i>
+                {% elif forloop.counter == 7 %}<i class="fas fa-database"></i>
+                {% else %}<i class="fas fa-project-diagram"></i>
+                {% endif %}
+            </div>
+            
+            <h3>
+                {% if forloop.counter == 1 %}Введение в Python
+                {% elif forloop.counter == 2 %}Переменные и типы данных
+                {% elif forloop.counter == 3 %}Функции в Python
+                {% elif forloop.counter == 4 %}Списки и словари
+                {% elif forloop.counter == 5 %}Циклы и условия
+                {% elif forloop.counter == 6 %}Объектно-ориентированное программирование
+                {% elif forloop.counter == 7 %}Работа с файлами
+                {% else %}Исключения и обработка ошибок
+                {% endif %}
+            </h3>
+            
+            <p>
+                {% if forloop.counter == 1 %}Основы языка Python, синтаксис и первая программа. Идеально для начала изучения программирования.
+                {% elif forloop.counter == 2 %}Типы данных, операции и преобразования типов. Фундаментальные знания для работы с данными.
+                {% elif forloop.counter == 3 %}Создание и использование функций, параметры, возврат значений. Научитесь структурировать код.
+                {% elif forloop.counter == 4 %}Работа с коллекциями данных в Python. Списки, словари, кортежи и их применение.
+                {% elif forloop.counter == 5 %}Управление потоком выполнения программы с помощью циклов и условных операторов.
+                {% elif forloop.counter == 6 %}Основы ООП: классы, объекты, наследование и полиморфизм в Python.
+                {% elif forloop.counter == 7 %}Чтение и запись файлов различных форматов. Работа с файловой системой.
+                {% else %}Обработка исключений, отладка кода и написание устойчивых программ.
+                {% endif %}
+            </p>
+            
+            <div class="lecture-meta">
+                <span><i class="fas fa-clock"></i> {% if forloop.counter < 4 %}45 мин{% else %}60 мин{% endif %}</span>
+                <span>
+                    <i class="fas fa-star"></i>
+                    <span class="difficulty-badge 
+                        {% if forloop.counter < 3 %}difficulty-easy
+                        {% elif forloop.counter < 6 %}difficulty-medium
+                        {% else %}difficulty-hard{% endif %}">
+                        {% if forloop.counter < 3 %}Лёгкий
+                        {% elif forloop.counter < 6 %}Средний
+                        {% else %}Сложный{% endif %}
+                    </span>
+                </span>
+                <span><i class="fas fa-book"></i> {% if forloop.counter < 5 %}Теория + Практика{% else %}Углублённый разбор{% endif %}</span>
+            </div>
+            
+            <!-- Единственная кнопка "Начать обучение" -->
+            <button class="start-learning-btn" onclick="startLearning({{ forloop.counter }})">
+                <i class="fas fa-play-circle"></i> Начать обучение
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    // Фильтрация лекций
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+    
+    // Функция для начала обучения
+    function startLearning(lectureId) {
+        
+        // Вариант 1: Открыть файл лекции (замените URL на реальные)
+        const lectureFiles = {
+            1: "{% static 'lectures/test.pdf' %}",
+            
+        };
+        
+        const fileUrl = lectureFiles[lectureId];
+        if (fileUrl) {
+            // Открыть в новой вкладке
+            window.open(fileUrl, '_blank');
+            
+            // Или показать уведомление
+            showNotification(`Начинаем лекцию №${lectureId}...`);
+        }
+        
+        
+    }
+    
+    // Функция для уведомления (опционально)
+    function showNotification(message) {
+        // Создаем уведомление
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        `;
+        notification.innerHTML = `
+            <i class="fas fa-check-circle" style="margin-right: 10px;"></i>
+            ${message}
+        `;
+        document.body.appendChild(notification);
+        
+        // Удаляем уведомление через 3 секунды
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+    
+    // Добавляем стили для анимации
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Обработка поиска (опционально)
+    document.querySelector('.search-input').addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        const cards = document.querySelectorAll('.lecture-card');
+        
+        cards.forEach(card => {
+            const title = card.querySelector('h3').textContent.toLowerCase();
+            const description = card.querySelector('p').textContent.toLowerCase();
+            
+            if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+</script>
+{% endblock %}

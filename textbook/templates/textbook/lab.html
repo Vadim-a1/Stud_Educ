@@ -168,14 +168,14 @@
 {% block content %}
 <div class="fade-in">
     <div class="card">
-        <h1><i class="fas fa-book-open"></i> Все лекции</h1>
+        <h1><i class="fas fa-book-open"></i> Все лабораторные</h1>
         <p style="color: var(--gray); margin-top: 0.5rem;">Изучайте материалы в удобном для вас порядке</p>
     </div>
 
     <!-- Поиск и фильтры -->
     <div class="search-box">
         <i class="fas fa-search" style="color: var(--gray);"></i>
-        <input type="text" class="search-input" placeholder="Поиск по лекциям...">
+        <input type="text" class="search-input" placeholder="Поиск по лабораторным...">
         <button class="btn"><i class="fas fa-filter"></i> Фильтры</button>
     </div>
 
@@ -188,7 +188,7 @@
                 <i class="fas fa-play"></i>
             </div>
             
-            <h3>Экспертные системы</h3>
+            <h3> ЛАБ 1: ИДЕНТИФИКАЦИЯ ЗАДАЧИ ОБРАБОТКИ  ИНФОРМАЦИИ И УПРАВЛЕНИЯ</h3>
             
             
             <div class="lecture-meta">
@@ -197,8 +197,8 @@
                 <span><i class="fas fa-book"></i> Теория + Практика</span>
             </div>
             
-            <a href="{% url 'lecture_detail' 1 %}" class="start-learning-btn">
-                <i class="fas fa-play-circle"></i> Смотреть лекцию
+            <a href="{% url 'lecture_detail' 6 %}" class="start-learning-btn">
+                <i class="fas fa-play-circle"></i> Смотреть 
             </a>
         </div>
         
@@ -207,7 +207,7 @@
                 <i class="fas fa-code"></i>
             </div>
             
-            <h3>СТРУКТУРА И ФУНКЦИОНИРОВАНИЕ ЭКСПЕРТНЫХ СИСТЕМ</h3>
+            <h3>ЛАБ 2: МЕТОДЫ ПРИОБРЕТЕНИЯ ЗНАНИЙ. МЕТОДЫ ПОСТРОЕНИЯ МОДЕЛИ ПРЕДМЕТНОЙ ОБЛАСТИ. СЕМАНТИЧЕСКИЕ СЕТИ</h3>
             
             
             <div class="lecture-meta">
@@ -216,8 +216,8 @@
                 <span><i class="fas fa-book"></i> Теория + Практика</span>
             </div>
             
-            <a href="{% url 'lecture_detail' 2 %}" class="start-learning-btn">
-                <i class="fas fa-play-circle"></i> Смотреть лекцию
+            <a href="{% url 'lecture_detail' 7 %}" class="start-learning-btn">
+                <i class="fas fa-play-circle"></i> Смотреть 
             </a>
         </div>
         
@@ -226,17 +226,17 @@
                 <i class="fas fa-function"></i>
             </div>
             
-            <h3>ПРЕДСТАВЛЕНИЕ ЗНАНИЙ</h3>
+            <h3>ЛАБ 3: МЕХАНИЗМ ЛОГИЧЕСКОГО ВЫВОДА  В ЭС ПРОДУКЦИОННОГО ТИПА</h3>
             
             
             <div class="lecture-meta">
                 <span><i class="fas fa-clock"></i> 90 мин</span>
-                \
+                
                 <span><i class="fas fa-book"></i> Теория + Практика</span>
             </div>
             
-            <a href="{% url 'lecture_detail' 3 %}" class="start-learning-btn">
-                <i class="fas fa-play-circle"></i> Смотреть лекцию
+            <a href="{% url 'lecture_detail' 8 %}" class="start-learning-btn">
+                <i class="fas fa-play-circle"></i> Смотреть 
             </a>
         </div>
         
@@ -245,38 +245,23 @@
                 <i class="fas fa-list"></i>
             </div>
             
-            <h3>ИНСТРУМЕНТАЛЬНАЯ ЭКСПЕРТНАЯ СИСТЕМА ExPRO 2</h3>
+            <h3>ЛАБ 4: ИНСТРУМЕНТАЛЬНЫЕ  СРЕДСТВА РАЗРАБОТКИ ЭС</h3>
             
             
             <div class="lecture-meta">
                 <span><i class="fas fa-clock"></i> 90 мин</span>
-                
+                <span>
+                    
+                </span>
                 <span><i class="fas fa-book"></i> Теория + Практика</span>
             </div>
             
-            <a href="{% url 'lecture_detail' 4 %}" class="start-learning-btn">
-                <i class="fas fa-play-circle"></i> Смотреть лекцию
+            <a href="{% url 'lecture_detail' 9 %}" class="start-learning-btn">
+                <i class="fas fa-play-circle"></i> Смотреть 
             </a>
         </div>
         
-        <div class="lecture-card">
-            <div class="lecture-icon">
-                <i class="fas fa-repeat"></i>
-            </div>
-            
-            <h3>ИСКУССТВЕННЫЙ ИНТЕЛЛЕКТ</h3>
-            
-            
-            <div class="lecture-meta">
-                <span><i class="fas fa-clock"></i> 90 мин</span>
-                
-                <span><i class="fas fa-book"></i> Углублённый разбор</span>
-            </div>
-            
-            <a href="{% url 'lecture_detail' 5 %}" class="start-learning-btn">
-                <i class="fas fa-play-circle"></i> Смотреть лекцию
-            </a>
-        </div>
+        
     </div>
 </div>
 

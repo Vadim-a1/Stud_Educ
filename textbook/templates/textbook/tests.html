@@ -293,7 +293,7 @@
     <div class="tests-header">
         <div>
             <h1><i class="fas fa-clipboard-check"></i> Тесты и проверка знаний</h1>
-            <p style="color: var(--gray); margin-top: 0.5rem;">Проверьте свои знания и закрепите материал</p>
+            <p style="color: var(--dark); margin-top: 0.5rem;">Проверьте свои знания и закрепите материал</p>
         </div>
         <div class="timer">
             <i class="fas fa-clock"></i>
@@ -301,37 +301,27 @@
         </div>
     </div>
 
-    <!-- Фильтры -->
-    <div class="test-filters">
-        <button class="filter-btn active" onclick="filterTests('all')">Все тесты</button>
-        <button class="filter-btn" onclick="filterTests('python')">Python</button>
-        <button class="filter-btn" onclick="filterTests('algorithms')">Алгоритмы</button>
-        <button class="filter-btn" onclick="filterTests('web')">Веб-разработка</button>
-        <button class="filter-btn" onclick="filterTests('completed')">Завершённые</button>
-        <button class="filter-btn" onclick="filterTests('new')">Новые</button>
-    </div>
-
     <!-- Сетка тестов -->
-    <div class="tests-grid">
+    <div class="tests-grid" id="tests-grid">
         <!-- Тест 1 -->
         <div class="test-card" data-category="python">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
                 <div>
-                    <h3 style="color: var(--primary);">Основы Python</h3>
-                    <p style="color: var(--gray); font-size: 0.9rem; margin: 5px 0;">Синтаксис, переменные, типы данных</p>
+                    <h3 style="color: var(--primary);">Лабораторная работа 1</h3>
+                    <p style="color: var(--gray); font-size: 0.9rem; margin: 5px 0;">Идентификация задачи обработки информации</p>
                 </div>
                 <span class="test-badge badge-easy">Лёгкий</span>
             </div>
             
-            <p style="margin: 1rem 0;">Тест охватывает базовые концепции языка Python.</p>
+            <p style="margin: 1rem 0;">Тест по основам идентификации задачи при разработке экспертных систем.</p>
             
             <div class="test-stats">
                 <div class="stat-item">
-                    <div class="stat-value">10</div>
+                    <div class="stat-value">4</div>
                     <div class="stat-label">вопросов</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value">15</div>
+                    <div class="stat-value">5</div>
                     <div class="stat-label">минут</div>
                 </div>
                 <div class="stat-item">
@@ -349,13 +339,13 @@
         <div class="test-card completed" data-category="python">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
                 <div>
-                    <h3 style="color: var(--primary);">Условные операторы</h3>
-                    <p style="color: var(--gray); font-size: 0.9rem; margin: 5px 0;">if, else, elif, логические операторы</p>
+                    <h3 style="color: var(--primary);">Лабораторная работа 2</h3>
+                    <p style="color: var(--gray); font-size: 0.9rem; margin: 5px 0;">Основы синтаксиса Python</p>
                 </div>
                 <span class="test-badge badge-easy">Лёгкий</span>
             </div>
             
-            <p style="margin: 1rem 0;">Работа с условиями и логическими выражениями.</p>
+            <p style="margin: 1rem 0;">Тест по основам языка программирования Python.</p>
             
             <div class="test-stats">
                 <div class="stat-item">
@@ -372,7 +362,7 @@
                 </div>
             </div>
             
-            <button class="btn btn-outline" style="width: 100%; margin-top: 1rem;">
+            <button class="btn btn-outline" style="width: 100%; margin-top: 1rem;" onclick="startTest(2)">
                 <i class="fas fa-redo"></i> Пройти ещё раз
             </button>
         </div>
@@ -381,7 +371,7 @@
         <div class="test-card" data-category="python">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
                 <div>
-                    <h3 style="color: var(--primary);">Функции</h3>
+                    <h3 style="color: var(--primary);">Лабораторная работа 3</h3>
                     <p style="color: var(--gray); font-size: 0.9rem; margin: 5px 0;">Создание и использование функций</p>
                 </div>
                 <span class="test-badge badge-medium">Средний</span>
@@ -391,11 +381,11 @@
             
             <div class="test-stats">
                 <div class="stat-item">
-                    <div class="stat-value">12</div>
+                    <div class="stat-value">2</div>
                     <div class="stat-label">вопросов</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value">20</div>
+                    <div class="stat-value">3</div>
                     <div class="stat-label">минут</div>
                 </div>
                 <div class="stat-item">
@@ -413,7 +403,7 @@
         <div class="test-card" data-category="algorithms">
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
                 <div>
-                    <h3 style="color: var(--primary);">Алгоритмы поиска</h3>
+                    <h3 style="color: var(--primary);">Лабораторная работа 4</h3>
                     <p style="color: var(--gray); font-size: 0.9rem; margin: 5px 0;">Линейный, бинарный поиск</p>
                 </div>
                 <span class="test-badge badge-medium">Средний</span>
@@ -509,7 +499,7 @@
             <button class="btn" onclick="returnToTests()">
                 <i class="fas fa-home"></i> Вернуться к тестам
             </button>
-            <button class="btn btn-outline" style="margin-left: 1rem;">
+            <button class="btn btn-outline" style="margin-left: 1rem;" onclick="restartTest()">
                 <i class="fas fa-redo"></i> Пройти ещё раз
             </button>
         </div>
@@ -520,15 +510,57 @@
     // Данные тестов
     const tests = {
         1: {
+            title: "Лабораторная работа 1",
+            questions: [
+                {
+                    text: "Какой этап разработки экспертной системы включает составление неформального описания решаемой задачи, определение участников, ресурсов и целей?",
+                    options: [
+                        { text: "Концептуализация", correct: false },
+                        { text: "Формализация", correct: false },
+                        { text: "Идентификация", correct: true },
+                        { text: "Отладка", correct: false }
+                    ]
+                },
+                {
+                    text: "Что из перечисленного НЕ является частью идентификационного описания задачи согласно методике лабораторной работы?",
+                    options: [
+                        { text: "Название задачи управления и обработки информации", correct: false },
+                        { text: "Выходные данные и их формат представления", correct: false },
+                        { text: "Алгоритм работы экспертной системы", correct: true },
+                        { text: "Кто решает данную задачу", correct: false }
+                    ]
+                },
+                {
+                    text: "В разделе 'Исходные данные для решения задачи' должно быть определено:",
+                    options: [
+                        { text: "Не менее 3-5 показателей", correct: false },
+                        { text: "Не менее 5-7 показателей", correct: false },
+                        { text: "Не менее 10-15 показателей", correct: true },
+                        { text: "Не менее 20 показателей", correct: false }
+                    ]
+                },
+                {
+                    text: "Что из перечисленного НЕ указано в методических рекомендациях по заполнению таблицы идентификации?",
+                    options: [
+                        { text: "Количество вариантов решения можно ограничить (не более 10)", correct: false },
+                        { text: "Пример решения задачи должен включать словесное описание поиска решения", correct: false },
+                        { text: "Экспертная система должна содержать готовый программный код", correct: true },
+                        { text: "Пример решения основан на показателях из раздела", correct: false }
+                    ]
+                }
+            ],
+            timeLimit: 300 // 5 минут для 4 вопросов
+        },
+        2: {
             title: "Основы Python",
             questions: [
                 {
                     text: "Какой оператор используется для вывода данных на экран в Python?",
                     options: [
-                        { text: "print()", correct: true },
-                        { text: "echo()", correct: false },
-                        { text: "console.log()", correct: false },
-                        { text: "output()", correct: false }
+                        { text: "echo", correct: false },
+                        { text: "print", correct: true },
+                        { text: "output", correct: false },
+                        { text: "display", correct: false }
                     ]
                 },
                 {
@@ -539,21 +571,12 @@
                         { text: "x = 5", correct: true },
                         { text: "int x = 5", correct: false }
                     ]
-                },
-                {
-                    text: "Какой тип данных используется для хранения целых чисел?",
-                    options: [
-                        { text: "str", correct: false },
-                        { text: "float", correct: false },
-                        { text: "int", correct: true },
-                        { text: "bool", correct: false }
-                    ]
                 }
             ],
-            timeLimit: 900 // 15 минут в секундах
+            timeLimit: 180 // 3 минуты
         },
         3: {
-            title: "Функции",
+            title: "Функции в Python",
             questions: [
                 {
                     text: "Как объявить функцию в Python?",
@@ -574,7 +597,7 @@
                     ]
                 }
             ],
-            timeLimit: 1200 // 20 минут в секундах
+            timeLimit: 180 // 3 минуты для 2 вопросов
         }
     };
 
@@ -585,6 +608,7 @@
     let testTimer;
     let timeLeft = 0;
     let startTime;
+    let currentTestId = null;
 
     // Фильтрация тестов
     function filterTests(category) {
@@ -603,19 +627,28 @@
 
     // Начать тест
     function startTest(testId) {
+        if (!tests[testId]) {
+            alert("Тест не найден!");
+            return;
+        }
+        
         currentTest = tests[testId];
+        currentTestId = testId;
         currentQuestion = 0;
         userAnswers = [];
         timeLeft = currentTest.timeLimit;
         startTime = Date.now();
         
-        document.querySelector('.tests-grid').style.display = 'none';
-        document.querySelector('.test-filters').style.display = 'none';
+        // Скрыть сетку тестов и показать активный тест
+        document.getElementById('tests-grid').style.display = 'none';
         document.getElementById('active-test').style.display = 'block';
+        document.getElementById('test-results').style.display = 'none';
         
+        // Обновить заголовок и количество вопросов
         document.getElementById('test-title').textContent = currentTest.title;
         document.getElementById('total-questions').textContent = currentTest.questions.length;
         
+        // Запустить таймер и показать первый вопрос
         startTimer();
         showQuestion();
     }
@@ -665,6 +698,11 @@
 
     // Следующий вопрос
     function nextQuestion() {
+        if (userAnswers[currentQuestion] === undefined) {
+            alert("Пожалуйста, выберите ответ!");
+            return;
+        }
+        
         if (currentQuestion < currentTest.questions.length - 1) {
             currentQuestion++;
             showQuestion();
@@ -726,8 +764,9 @@
         // Обновление UI результатов
         document.getElementById('correct-answers').textContent = `${correct}/${currentTest.questions.length}`;
         document.getElementById('total-time').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-        document.getElementById('test-score').textContent = Math.round(percent / 10);
+        document.getElementById('test-score').textContent = correct * 10; // 10 баллов за каждый правильный ответ
         document.getElementById('result-percent').textContent = `${percent}%`;
+        document.getElementById('result-title').textContent = `Тест "${currentTest.title}" завершён!`;
         
         // Анимация круга прогресса
         const circle = document.getElementById('result-circle');
@@ -754,15 +793,27 @@
     // Вернуться к списку тестов
     function returnToTests() {
         document.getElementById('test-results').style.display = 'none';
-        document.querySelector('.tests-grid').style.display = 'grid';
-        document.querySelector('.test-filters').style.display = 'flex';
+        document.getElementById('tests-grid').style.display = 'grid';
+        document.getElementById('active-test').style.display = 'none';
+    }
+
+    // Пройти тест ещё раз
+    function restartTest() {
+        if (currentTestId) {
+            startTest(currentTestId);
+        }
     }
 
     // Таймер на главной странице
-    setInterval(() => {
-        const now = new Date();
-        document.getElementById('global-timer').textContent = 
-            now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-    }, 1000);
+    document.addEventListener('DOMContentLoaded', function() {
+        function updateGlobalTimer() {
+            const now = new Date();
+            document.getElementById('global-timer').textContent = 
+                now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+        
+        updateGlobalTimer();
+        setInterval(updateGlobalTimer, 1000);
+    });
 </script>
 {% endblock %}

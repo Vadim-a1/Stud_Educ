@@ -1,0 +1,17 @@
+{% extends 'textbook/base.html' %}
+{% load static %}
+
+{% block title %}{{ lecture.title }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>{{ lecture.title }}</h1>
+
+    <iframe 
+        src="{% static lecture.pdf %}"
+        width="100%"
+        height="800px"
+        style="border-radius: 12px; border: none;"
+    ></iframe>
+</div>
+{% endblock %}

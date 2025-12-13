@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}CodeMaster - Курсы программирования{% endblock %}</title>
+    <title>{% block title %}StudEduc - Курсы программирования{% endblock %}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -311,13 +311,16 @@
         <div class="nav-container">
             <a href="{% url 'index' %}" class="logo">
                 <i class="fas fa-code"></i>
-                CodeMaster
+                StudEduc
             </a>
             
             <div class="nav-links">
                 <a href="{% url 'index' %}" class="active"><i class="fas fa-home"></i> Главная</a>
                 <a href="{% url 'lectures' %}"><i class="fas fa-book"></i> Лекции</a>
+                <a href="{% url 'lab' %}"><i class="fas fa-clipboard-check"></i> Лабораторные</a>
                 <a href="{% url 'tests' %}"><i class="fas fa-clipboard-check"></i> Тесты</a>>
+                
+                
                 
                 
                 <div class="user-profile">
@@ -338,24 +341,24 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
-                <h3>CodeMaster</h3>
-                <p>Онлайн-платформа для изучения программирования. Освойте современные технологии с нуля.</p>
+                <h3>StudEduc</h3>
+                <p>Онлайн-платформа для обучения.</p>
             </div>
             
             <div class="footer-section">
                 <h3>Курсы</h3>
                 <ul>
-                    <li>Python для начинающих</li>
-                    <li>Веб-разработка</li>
-                    <li>Алгоритмы и структуры данных</li>
-                    <li>Базы данных</li>
+                    <li>Лекции</li>
+                    <li>Лабораторные</li>
+                    <li>Тесты</li>
+                    
                 </ul>
             </div>
             
             <div class="footer-section">
                 <h3>Контакты</h3>
-                <p>support@codemaster.ru</p>
-                <p>+7 (999) 123-45-67</p>
+                <p>support@StudEduc.ru</p>
+                <p>+9 (999) 999-99-99</p>
             </div>
         </div>
     </footer>

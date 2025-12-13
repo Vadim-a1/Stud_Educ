@@ -17,8 +17,10 @@ urlpatterns = [
     path('lectures/', views.lectures, name='lectures'),
 
     path('tests/',views.tests, name='tests'),
+
+    path('lectures/<int:lecture_id>/', views.lecture_detail, name='lecture_detail'),
     
-    
+    path('lab/', views.lab, name='lab'),
 ]
 
 # Обслуживание медиафайлов в режиме разработки (для PDF)

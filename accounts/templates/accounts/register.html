@@ -3,73 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация</title>
+    <title>Регистрация | StudEduc</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
-        body { font-family: Arial, sans-serif; max-width: 400px; margin: 50px auto; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 8px;
+        * {
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        button { 
-            background: #2196F3; 
-            color: white; 
-            padding: 10px 20px; 
-            border: none; 
-            cursor: pointer; 
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #2196f3, #667eea);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .register-card {
+            background: white;
             width: 100%;
+            max-width: 460px;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            animation: fadeIn 0.6s ease;
         }
-        .messages { 
-            background: #f0f0f0; 
-            padding: 10px; 
-            margin-bottom: 15px; 
-            border-radius: 4px;
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .error { color: red; }
-        .success { color: green; }
-        .helptext { 
-            display: block; 
-            font-size: 12px; 
-            color: #666; 
+
+        .register-card h2 {
+            text-align: center;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .register-card p {
+            text-align: center;
+            color: #777;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #444;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2196f3;
+            box-shadow: 0 0 0 3px rgba(33,150,243,0.15);
+        }
+
+        .helptext {
+            display: block;
+            font-size: 0.8rem;
+            color: #777;
             margin-top: 5px;
         }
-        .errorlist { color: red; font-size: 14px; }
+
+        .errorlist {
+            margin-top: 5px;
+            font-size: 0.85rem;
+            color: #b91c1c;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #2196f3, #667eea);
+            color: white;
+            font-size: 1.05rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .messages {
+            margin-bottom: 1.2rem;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #666;
+        }
+
+        .footer-text a {
+            color: #2196f3;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .footer-text a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <h2>Регистрация</h2>
-    
+
+<div class="register-card">
+    <h2>Создание аккаунта 🚀</h2>
+    <p>Присоединяйтесь к StudEduc</p>
+
     {% if messages %}
-    <div class="messages">
         {% for message in messages %}
-            <div class="{{ message.tags }}">{{ message }}</div>
+            <div class="messages {{ message.tags }}">
+                {{ message }}
+            </div>
         {% endfor %}
-    </div>
     {% endif %}
-    
+
     <form method="post">
         {% csrf_token %}
-        
+
         {% for field in form %}
-        <div class="form-group">
-            {{ field.label_tag }}
-            {{ field }}
-            {% if field.help_text %}
-                <span class="helptext">{{ field.help_text }}</span>
-            {% endif %}
-            {% if field.errors %}
-                <div class="errorlist">{{ field.errors }}</div>
-            {% endif %}
-        </div>
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                
+                {% if field.help_text %}
+                    <span class="helptext">{{ field.help_text }}</span>
+                {% endif %}
+
+                {% if field.errors %}
+                    <div class="errorlist">
+                        {{ field.errors }}
+                    </div>
+                {% endif %}
+            </div>
         {% endfor %}
-        
-        <button type="submit">Зарегистрироваться</button>
+
+        <button type="submit">
+            <i class="fas fa-user-plus"></i> Зарегистрироваться
+        </button>
     </form>
-    
-    <p style="margin-top: 20px; text-align: center;">
-        Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a>
-    </p>
+
+    <div class="footer-text">
+        Уже есть аккаунт?
+        <a href="{% url 'login' %}">Войти</a>
+    </div>
+</div>
+
 </body>
 </html>

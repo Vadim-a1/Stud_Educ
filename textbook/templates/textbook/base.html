@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}CodeMaster - Курсы программирования{% endblock %}</title>
+    <title>{% block title %}StudEduc - Курсы программирования{% endblock %}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -442,7 +442,7 @@
         <div class="nav-container">
             <a href="{% url 'index' %}" class="logo">
                 <i class="fas fa-code"></i>
-                CodeMaster
+                StudEduc
             </a>
             
             <div class="nav-links">
@@ -452,9 +452,7 @@
                 <a href="{% url 'lectures' %}" class="{% if request.resolver_match.url_name == 'lectures' %}active{% endif %}">
                     <i class="fas fa-book"></i> Лекции
                 </a>
-                <a href="#" class="{% if request.resolver_match.url_name == 'practice' %}active{% endif %}">
-                    <i class="fas fa-laptop-code"></i> Практика
-                </a>
+                
                 <a href="{% url 'tests' %}" class="{% if request.resolver_match.url_name == 'tests' %}active{% endif %}">
                     <i class="fas fa-clipboard-check"></i> Тесты
                 </a>
@@ -464,10 +462,14 @@
                 
                 {% if user.is_authenticated %}
                 <!-- Блок авторизованного пользователя -->
-                <div class="user-profile">
-                    <div class="user-avatar">{{ user.username|first|upper }}</div>
-                    <span>{{ user.username }}</span>
-                </div>
+                {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}" class="user-profile-link">
+                    <div class="user-profile">
+                        <div class="user-avatar">{{ user.username|first|upper }}</div>
+                        <span>{{ user.username }}</span>
+                    </div>
+                </a>
+                {% endif %}
                 
                 <!-- ФОРМА для выхода (исправлено!) -->
                 <form method="post" action="{% url 'logout' %}" class="logout-form">
@@ -521,8 +523,8 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
-                <h3>CodeMaster</h3>
-                <p>Онлайн-платформа для изучения программирования. Освойте современные технологии с нуля.</p>
+                <h3>StudEduc</h3>
+                <p>Онлайн-платформа для обучения.</p>
                 {% if user.is_authenticated %}
                 <p style="margin-top: 1rem; color: var(--accent);">
                     <i class="fas fa-user-check"></i> Вы вошли как: {{ user.username }}
@@ -531,18 +533,17 @@
             </div>
             
             <div class="footer-section">
-                <h3>Курсы</h3>
+                <h3>Пользователям</h3>
                 <ul style="list-style: none;">
-                    <li><i class="fas fa-chevron-right" style="color: var(--accent);"></i> Python для начинающих</li>
-                    <li><i class="fas fa-chevron-right" style="color: var(--accent);"></i> Веб-разработка</li>
-                    <li><i class="fas fa-chevron-right" style="color: var(--accent);"></i> Алгоритмы и структуры данных</li>
-                    <li><i class="fas fa-chevron-right" style="color: var(--accent);"></i> Экспертные системы</li>
+                    <li><i class="fas fa-chevron-right" style="color: var(--accent);"></i> Партнерская прогрмма</li>
+                    <li><i class="fas fa-chevron-right" style="color: var(--accent);"></i> Правила пользования</li>
+                    <li><i class="fas fa-chevron-right" style="color: var(--accent);"></i> Политика конфиденциальности</li>
                 </ul>
             </div>
             
             <div class="footer-section">
                 <h3>Контакты</h3>
-                <p><i class="fas fa-envelope"></i> support@codemaster.ru</p>
+                <p><i class="fas fa-envelope"></i> support@StudEduc.ru</p>
                 <p><i class="fas fa-phone"></i> +7 (999) 123-45-67</p>
                 <div style="margin-top: 1rem; display: flex; gap: 1rem;">
                     <a href="#" style="color: white; font-size: 1.5rem;"><i class="fab fa-vk"></i></a>

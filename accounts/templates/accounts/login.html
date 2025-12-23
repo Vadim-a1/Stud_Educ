@@ -3,63 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход в систему</title>
+    <title>Вход в систему | StudEduc</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
-        body { font-family: Arial, sans-serif; max-width: 400px; margin: 50px auto; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 8px;
+        * {
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        button { 
-            background: #4CAF50; 
-            color: white; 
-            padding: 10px 20px; 
-            border: none; 
-            cursor: pointer; 
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            background: white;
             width: 100%;
+            max-width: 420px;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            animation: fadeIn 0.6s ease;
         }
-        .messages { 
-            background: #f0f0f0; 
-            padding: 10px; 
-            margin-bottom: 15px; 
-            border-radius: 4px;
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .error { color: red; }
-        .success { color: green; }
+
+        .login-card h2 {
+            text-align: center;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .login-card p {
+            text-align: center;
+            color: #777;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #444;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.15);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 1.05rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .messages {
+            margin-bottom: 1.2rem;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #666;
+        }
+
+        .footer-text a {
+            color: #667eea;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .footer-text a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <h2>Вход в систему</h2>
-    
+
+<div class="login-card">
+    <h2>Добро пожаловать 👋</h2>
+    <p>Войдите в свой аккаунт StudEduc</p>
+
     {% if messages %}
-    <div class="messages">
         {% for message in messages %}
-            <div class="{{ message.tags }}">{{ message }}</div>
+            <div class="messages {{ message.tags }}">
+                {{ message }}
+            </div>
         {% endfor %}
-    </div>
     {% endif %}
-    
+
     <form method="post">
         {% csrf_token %}
-        
+
         <div class="form-group">
-            <label for="username">Имя пользователя:</label>
-            <input type="text" name="username" id="username" required>
+            <label for="username">Имя пользователя</label>
+            <div class="input-wrapper">
+                <i class="fas fa-user"></i>
+                <input type="text" name="username" id="username" placeholder="Введите логин" required>
+            </div>
         </div>
-        
+
         <div class="form-group">
-            <label for="password">Пароль:</label>
-            <input type="password" name="password" id="password" required>
+            <label for="password">Пароль</label>
+            <div class="input-wrapper">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="password" id="password" placeholder="Введите пароль" required>
+            </div>
         </div>
-        
-        <button type="submit">Войти</button>
+
+        <button type="submit">
+            <i class="fas fa-sign-in-alt"></i> Войти
+        </button>
     </form>
-    
-    <p style="margin-top: 20px; text-align: center;">
-        Нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a>
-    </p>
+
+    <div class="footer-text">
+        Нет аккаунта?
+        <a href="{% url 'register' %}">Зарегистрироваться</a>
+    </div>
+</div>
+
 </body>
 </html>

@@ -99,7 +99,7 @@
             
             <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: #f0f9ff; border-radius: 10px;">
                 <div>
-                    <h3 style="color: var(--primary);">Тест: Функции в Python</h3>
+                    <h3 style="color: var(--primary);">Тест: Лабараторная работа 2</h3>
                     <p style="color: var(--gray); margin: 5px 0;">2 вопроса · Создание и использование функций</p>
                 </div>
                 {% if user.is_authenticated %}
@@ -147,19 +147,7 @@
                 </div>
             </a>
             
-            <a href="#" style="text-decoration: none;" onclick="{% if user.is_authenticated %}window.location.href='#'{% else %}alert('Пожалуйста, войдите в систему для доступа к практическим заданиям'){% endif %}">
-                <div style="text-align: center; padding: 1.5rem; background: var(--light); border-radius: 10px; transition: all 0.3s; cursor: pointer;">
-                    <div style="font-size: 2rem; color: var(--accent); margin-bottom: 0.5rem;">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div style="font-weight: bold; color: var(--dark);">Практика</div>
-                    {% if not user.is_authenticated %}
-                    <div style="font-size: 0.8rem; color: var(--gray); margin-top: 5px;">
-                        <i class="fas fa-lock"></i> Требуется вход
-                    </div>
-                    {% endif %}
-                </div>
-            </a>
+            
             
             <a href="{% url 'lab' %}" style="text-decoration: none;">
                 <div style="text-align: center; padding: 1.5rem; background: var(--light); border-radius: 10px; transition: all 0.3s; cursor: pointer;">

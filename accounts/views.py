@@ -4,6 +4,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Кастомный класс для входа
 class CustomLoginView(LoginView):
@@ -38,3 +39,6 @@ def register(request):
         form = UserCreationForm()
     
     return render(request, 'accounts/register.html', {'form': form})
+@login_required
+def profile(request):
+    return render(request, 'accounts/profile.html')

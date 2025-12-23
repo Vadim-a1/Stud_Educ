@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     path('register/', views.register, name='register'),
-    # Остальные пути уже в главном urls.py
+    path('profile/', views.profile, name='profile'),
 ]
